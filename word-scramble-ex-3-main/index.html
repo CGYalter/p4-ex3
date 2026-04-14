@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble Game</title>
+    <style>
+       body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 50px;
+    background-color: #e0f7fa; 
+    color: #333;
+}
+.container {
+    background: white;
+    padding: 40px 60px;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.15); 
+}
+h1 {
+    color: #00796b; 
+    margin-top: 0;
+}
+h2#scrambledWord {
+    letter-spacing: 8px;
+    color: #d32f2f;
+    font-size: 32px;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 8px;
+}
+input {
+    padding: 12px;
+    font-size: 18px;
+    width: 80%;
+    margin-bottom: 20px;
+    border: 2px solid #b2dfdb;
+    border-radius: 5px;
+    outline: none;
+}
+input:focus {
+    border-color: #00796b; 
+}
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00897b;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+button:hover { background-color: #00695c; }
+#newWord { background-color: #0288d1; }
+#newWord:hover { background-color: #01579b; }
+#result {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    min-height: 26px;
+}
+#wordImage {
+    display: none;
+    margin: 20px auto 0 auto;
+    max-width: 250px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Word Scramble Game</h1>
+    <p>Guess the correct word!</p>
+    <h2 id="scrambledWord"></h2>
+    
+    <input type="text" id="guess" placeholder="Type your answer...">
+    <br>
+    <button id="checkAnswer">Check Answer</button>
+    <button id="newWord">New Word</button>
+    
+    <div id="result"></div>
+    <img id="wordImage" src="" alt="Word Image">
+</div>
+
+<script>
+    const words = ["Shinchan", "Doraemon", "Luffy", "Pikachu", "Saitama"];
+    
+    // Mapping words to their specific extensions provided in the files
+    const imageMap = {
+        "Shinchan": "shinchan.jpeg",
+        "Doraemon": "doraemon.png",
+        "Luffy": "luffy.webp",
+        "Pikachu": "pikachu.jpeg",
+        "Saitama": "saitama.webp"
+    };
+
+    let currentWord = "";
+
+    function scramble(word) {
+        let arr = word.split("");
+        for (let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join("");
+    }
+
+    function generateNewWord() {
+        currentWord = words[Math.floor(Math.random() * words.length)];
+        document.getElementById("scrambledWord").innerText = scramble(currentWord);
+        document.getElementById("guess").value = "";
+        document.getElementById("result").innerText = "";
+        document.getElementById("wordImage").style.display = "none";
+    }
+
+    function checkAnswer() {
+        let userGuess = document.getElementById("guess").value.trim().toLowerCase();
+        let resultDiv = document.getElementById("result");
+        let img = document.getElementById("wordImage");
+
+        if (userGuess === currentWord.toLowerCase()) {
+            resultDiv.innerText = "Correct! Well done!";
+            resultDiv.style.color = "green";
+            
+           
+            img.src = imageMap[currentWord];
+            img.style.display = "block";
+        } else {
+            resultDiv.innerText = "Wrong! Try again!";
+            resultDiv.style.color = "red";
+            img.style.display = "none";
+        }
+    }
+
+    document.getElementById("checkAnswer").onclick = checkAnswer;
+    document.getElementById("newWord").onclick = generateNewWord;
+
+    generateNewWord();
+</script>
+
+</body>
+</html>
+
+
+
+
+</script>
+</html>
